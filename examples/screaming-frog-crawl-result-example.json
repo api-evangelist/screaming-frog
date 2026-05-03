@@ -1,0 +1,22 @@
+{
+  "url": "https://www.example.com/seo-best-practices/",
+  "status_code": 200,
+  "status": "OK",
+  "title": "SEO Best Practices 2024 | Example Site",
+  "title_length": 40,
+  "meta_description": "Learn the top SEO best practices for 2024 including technical optimization, content strategy, and link building fundamentals.",
+  "meta_description_length": 126,
+  "h1": "SEO Best Practices for 2024",
+  "h2": "Technical SEO Fundamentals",
+  "word_count": 1842,
+  "content_type": "text/html; charset=UTF-8",
+  "size": 48320,
+  "indexability": "Indexable",
+  "indexability_status": "",
+  "canonical_url": "https://www.example.com/seo-best-practices/",
+  "redirect_url": null,
+  "inlinks": 12,
+  "outlinks": 34,
+  "crawl_depth": 2,
+  "response_time": 0.342
+}
