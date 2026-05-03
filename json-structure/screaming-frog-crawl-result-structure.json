@@ -1,0 +1,27 @@
+{
+  "name": "Screaming Frog Crawl Result Structure",
+  "description": "Structure for a URL crawl result from the Screaming Frog SEO Spider tool",
+  "version": "1.0.0",
+  "structure": {
+    "url": "string(uri) - The crawled URL",
+    "status_code": "integer - HTTP response status code (200, 301, 404, etc.)",
+    "status": "string - HTTP status description",
+    "title": "string - Page title tag content",
+    "title_length": "integer - Title character count",
+    "meta_description": "string - Meta description content",
+    "meta_description_length": "integer - Meta description character count",
+    "h1": "string - First H1 heading",
+    "h2": "string - First H2 heading",
+    "word_count": "integer - Total words on page",
+    "content_type": "string - HTTP Content-Type header",
+    "size": "integer - Page size in bytes",
+    "indexability": "enum[Indexable|Non-Indexable] - Search engine indexability",
+    "indexability_status": "string - Reason if non-indexable",
+    "canonical_url": "string(uri) - Canonical URL (rel=canonical)",
+    "redirect_url": "string(uri) - Redirect destination URL",
+    "inlinks": "integer - Number of internal links to this URL",
+    "outlinks": "integer - Number of links from this page",
+    "crawl_depth": "integer - Click depth from start URL",
+    "response_time": "number - Server response time in seconds"
+  }
+}

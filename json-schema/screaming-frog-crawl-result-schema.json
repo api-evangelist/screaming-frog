@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/screaming-frog/main/json-schema/screaming-frog-crawl-result-schema.json",
+  "title": "Screaming Frog Crawl Result",
+  "description": "Schema for a URL crawl result from the Screaming Frog SEO Spider",
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The crawled URL"
+    },
+    "status_code": {
+      "type": "integer",
+      "description": "HTTP response status code (e.g., 200, 301, 404)"
+    },
+    "status": {
+      "type": "string",
+      "description": "Human-readable HTTP status description"
+    },
+    "title": {
+      "type": "string",
+      "description": "HTML page title content"
+    },
+    "title_length": {
+      "type": "integer",
+      "description": "Length of the page title in characters"
+    },
+    "meta_description": {
+      "type": "string",
+      "description": "Meta description content"
+    },
+    "meta_description_length": {
+      "type": "integer",
+      "description": "Length of meta description in characters"
+    },
+    "h1": {
+      "type": "string",
+      "description": "First H1 heading content"
+    },
+    "h2": {
+      "type": "string",
+      "description": "First H2 heading content"
+    },
+    "word_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total word count on the page"
+    },
+    "content_type": {
+      "type": "string",
+      "description": "HTTP Content-Type response header value"
+    },
+    "size": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Page size in bytes"
+    },
+    "indexability": {
+      "type": "string",
+      "enum": ["Indexable", "Non-Indexable"],
+      "description": "Whether the page is indexable by search engines"
+    },
+    "indexability_status": {
+      "type": "string",
+      "description": "Reason for non-indexability (e.g., noindex, canonical, blocked by robots)"
+    },
+    "canonical_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Canonical URL specified via rel=canonical"
+    },
+    "redirect_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL that this page redirects to (for 3xx status codes)"
+    },
+    "inlinks": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of internal links pointing to this URL"
+    },
+    "outlinks": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of links on this page pointing to other URLs"
+    },
+    "crawl_depth": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Click depth from the start URL"
+    },
+    "response_time": {
+      "type": "number",
+      "description": "Server response time in seconds"
+    }
+  },
+  "required": ["url", "status_code"]
+}

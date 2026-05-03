@@ -1,0 +1,26 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "seo": "https://raw.githubusercontent.com/api-evangelist/screaming-frog/main/vocabulary/",
+    "url": "url",
+    "status_code": "seo:statusCode",
+    "status": "seo:httpStatus",
+    "title": "name",
+    "title_length": "seo:titleLength",
+    "meta_description": "description",
+    "meta_description_length": "seo:descriptionLength",
+    "h1": "headline",
+    "word_count": "wordCount",
+    "content_type": "encodingFormat",
+    "size": "contentSize",
+    "indexability": "seo:indexability",
+    "canonical_url": "sameAs",
+    "redirect_url": "seo:redirectUrl",
+    "inlinks": "seo:inlinks",
+    "outlinks": "seo:outlinks",
+    "crawl_depth": "seo:crawlDepth",
+    "response_time": "seo:responseTime",
+    "CrawlResult": "WebPage",
+    "SEOAudit": "Report"
+  }
+}
