@@ -2,12 +2,20 @@
   "repo": "screaming-frog",
   "feeds": [
     {
-      "source": "https://www.screamingfrog.co.uk/blog/",
+      "source": "https://www.screamingfrog.co.uk/blog/feed/",
       "feed_url": "https://www.screamingfrog.co.uk/blog/feed/",
-      "title": "Screaming Frog",
-      "saved": 6
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
+      "source": "https://www.screamingfrog.co.uk/",
+      "feed_url": "https://www.screamingfrog.co.uk/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
     }
   ],
-  "post_count": 16,
-  "fetched": "2026-05-17T20:20:35Z"
+  "post_count": 17,
+  "fetched": "2026-06-01T23:35:02Z"
 }
