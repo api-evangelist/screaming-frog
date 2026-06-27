@@ -57,7 +57,7 @@ apis:
         url: https://raw.githubusercontent.com/api-evangelist/screaming-frog/refs/heads/main/json-ld/screaming-frog-context.jsonld
       - type: Vocabulary
         url: https://raw.githubusercontent.com/api-evangelist/screaming-frog/refs/heads/main/vocabulary/screaming-frog-vocabulary.yml
-      - type: Example
+      - type: Examples
         url: https://raw.githubusercontent.com/api-evangelist/screaming-frog/refs/heads/main/examples/screaming-frog-crawl-result-example.json
   - aid: screaming-frog:log-file-analyser
     name: Screaming Frog Log File Analyser
