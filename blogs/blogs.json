@@ -9,6 +9,13 @@
       "method": "feed"
     },
     {
+      "source": "https://www.screamingfrog.co.uk/feed/",
+      "feed_url": "https://www.screamingfrog.co.uk/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
       "source": "https://www.screamingfrog.co.uk/",
       "feed_url": "https://www.screamingfrog.co.uk/feed/",
       "title": "",
@@ -17,5 +24,5 @@
     }
   ],
   "post_count": 17,
-  "fetched": "2026-06-27T12:03:07Z"
+  "fetched": "2026-07-11T11:50:51Z"
 }
