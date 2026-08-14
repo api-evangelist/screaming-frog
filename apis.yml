@@ -8,6 +8,13 @@ description: >-
   Google Search Console, PageSpeed Insights, Ahrefs, Majestic, Moz, OpenAI,
   Gemini, Ollama, and Anthropic. Screaming Frog also offers a free Log File
   Analyser for analyzing server log files to understand search bot behavior.
+  Screaming Frog operates no public web API. Its machine-callable surfaces are the
+  SEO Spider command line interface, which runs the product fully headless, and — since
+  version 24.0, released 19 May 2026 — a first-party Model Context Protocol server built
+  into the desktop application, exposing 29 tools for crawl control, reports, bulk
+  exports, URL inspection, screenshots, embeddings, Node scripting and sandboxed file
+  access. The MCP server is a paid licence feature and runs inside the user's own
+  installation over stdio or a loopback HTTP transport; there is no hosted endpoint.
 type: Index
 accessModel:
   pricing: freemium
@@ -31,8 +38,12 @@ tags:
   - Technical Audit
   - Marketing
   - Analytics
+  - MCP
+  - Agents
+  - Desktop Software
+  - Command Line
 created: '2026-05-02'
-modified: '2026-05-02'
+modified: '2026-08-13'
 url: >-
   https://raw.githubusercontent.com/api-evangelist/screaming-frog/refs/heads/main/apis.yml
 specificationVersion: '0.19'
@@ -71,6 +82,20 @@ apis:
         url: https://raw.githubusercontent.com/api-evangelist/screaming-frog/refs/heads/main/vocabulary/screaming-frog-vocabulary.yml
       - type: Examples
         url: https://raw.githubusercontent.com/api-evangelist/screaming-frog/refs/heads/main/examples/screaming-frog-crawl-result-example.json
+      - type: MCPServer
+        url: mcp/screaming-frog-mcp.yml
+      - type: CLI
+        url: cli/screaming-frog-cli.yml
+      - type: AgentSkill
+        url: skills/_index.yml
+      - type: DataModel
+        url: data-model/screaming-frog-data-model.yml
+      - type: APIReference
+        url: https://www.screamingfrog.co.uk/guides/mcp-server/
+      - type: GettingStarted
+        url: https://www.screamingfrog.co.uk/seo-spider/tutorials/quick-start-guide/
+      - type: Support
+        url: https://www.screamingfrog.co.uk/seo-spider/support/
   - aid: screaming-frog:log-file-analyser
     name: Screaming Frog Log File Analyser
     description: >-
@@ -90,6 +115,14 @@ apis:
     properties:
       - type: Documentation
         url: https://www.screamingfrog.co.uk/log-file-analyser/user-guide/
+      - type: Pricing
+        url: https://www.screamingfrog.co.uk/log-file-analyser/pricing/
+      - type: Support
+        url: https://www.screamingfrog.co.uk/log-file-analyser/support/
+      - type: TermsOfService
+        url: https://www.screamingfrog.co.uk/log-file-analyser/terms-conditions/
+      - type: ReleaseHistory
+        url: https://www.screamingfrog.co.uk/log-file-analyser/release-history/
 common:
   - type: DomainSecurity
     url: security/screaming-frog-domain-security.yml
@@ -105,6 +138,43 @@ common:
     url: https://www.screamingfrog.co.uk/seo-spider/pricing/
   - type: Support
     url: https://www.screamingfrog.co.uk/seo-spider/faq/
+  - type: HelpCenter
+    url: https://www.screamingfrog.co.uk/seo-spider/support/
+  - type: GitHubOrganization
+    url: https://github.com/screamingfrog
+  - type: TermsOfService
+    url: https://www.screamingfrog.co.uk/seo-spider/terms-conditions/
+  - type: PrivacyPolicy
+    url: https://www.screamingfrog.co.uk/privacy/
+  - type: Login
+    url: https://www.screamingfrog.co.uk/login/
+  - type: ChangeLog
+    url: changelog/screaming-frog-changelog.yml
+  - type: Lifecycle
+    url: lifecycle/screaming-frog-lifecycle.yml
+  - type: Conventions
+    url: conventions/screaming-frog-conventions.yml
+  - type: Packages
+    url: packages/screaming-frog-packages.yml
+  - type: Plans
+    url: plans/screaming-frog-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/screaming-frog-rate-limits.yml
+  - type: LLMsTxt
+    url: llms/screaming-frog-llms.txt
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 13
+  pass: local-v1
+x-coverage:
+  state: covered
+  reason: mcp-server-and-cli-documented
+  detail: >-
+    Screaming Frog ships no web API, but it does ship a fully documented first-party MCP
+    server (SEO Spider v24, 29 tools with published parameter schemas) and a complete
+    headless CLI, both harvested this pass from the provider's own pages.
+  checked: '2026-08-13'
