@@ -1,0 +1,170 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://www.screamingfrog.co.uk/guides/mcp-server/ ,
+  https://www.screamingfrog.co.uk/seo-spider/user-guide/general/
+provider: Screaming Frog
+providerId: screaming-frog
+description: >-
+  Cross-cutting runtime semantics for the two machine-callable surfaces Screaming Frog
+  actually ships — the SEO Spider CLI and the v24 MCP server. There is no HTTP API, so
+  the usual REST conventions (status codes, idempotency keys, cursor pagination, rate
+  limit headers, problem+json) have no counterpart here. What follows is the real
+  contract an agent has to honour, taken verbatim from the provider's own MCP API
+  reference and CLI guide.
+surfaces:
+  - {name: MCP server, artifact: mcp/screaming-frog-mcp.yml, since: 'v24.0 (2026-05-19)'}
+  - {name: CLI, artifact: cli/screaming-frog-cli.yml}
+
+authentication:
+  style: local-licence
+  api_keys: false
+  oauth: false
+  tokens: false
+  description: >-
+    Neither surface uses a bearer token, API key or OAuth flow, because neither crosses a
+    network boundary to Screaming Frog. Entitlement is a locally installed licence:
+    licence.txt in the .ScreamingFrogSEOSpider directory (username on line one, key on
+    line two) and an accepted EULA (eula.accepted in spider.config). The MCP server is a
+    paid licence feature and will not run in the free version.
+  trust_boundary: >-
+    Because there is no auth on the loopback MCP transport, access control is physical
+    and procedural. The provider makes this explicit: the operator "must ensure the
+    software is not accessed or interacted with by anyone other than the licensed user"
+    and is "responsible for the privacy of all data sent to, or accessed via the MCP server."
+  third_party_credentials:
+    note: >-
+      Credentials the SEO Spider holds are for OTHER providers' APIs, stored locally.
+      OAuth-based ones (Google Analytics, Google Search Console, Google Drive) must be
+      authorised once through the UI, after which the 'analytics', 'search_console' and
+      'google_drive' folders can be copied to a headless machine. Key-based ones are set
+      in spider.config as PSI.secretkey, ahrefs.authkey, majestic.authkey, moz.secretkey.
+
+idempotency:
+  supported: false
+  keys: false
+  note: >-
+    No idempotency key, no replay protection, and several tools are explicitly
+    destructive-on-repeat. sf_write_text_file "will overwrite existing files without
+    warning"; the CLI requires --overwrite or --timestamped-output to write into a
+    non-empty output folder. Retrying a failed call is not safe by default — an agent must
+    make paths unique itself.
+
+pagination:
+  style: offset-limit
+  applies_to: [sf_export_seo_element_urls]
+  params:
+    offset: start_index
+    limit: max_rows
+  defaults:
+    start_index: 0
+    max_rows: all rows
+  note: >-
+    Only the SEO element export paginates. sf_list_crawls takes a `limit` (default 10)
+    but no offset. Reports and bulk exports have no paging at all — they return the whole
+    dataset, which is why the provider steers large results to `file_path` instead of the
+    response body.
+  file_reading:
+    tool: sf_read_text_file
+    params: {skip: lines to skip before reading, limit: number of lines to read}
+    note: The line-window parameters on file reads are the practical paging mechanism for large exports.
+
+field_selection:
+  supported: true
+  param: data_fields
+  applies_to: [sf_generate_report, sf_generate_bulk_export, sf_export_seo_element_urls]
+  semantics: If the array is empty, all available data fields are exported.
+  discovery: sf_list_available_data_fields_for_seo_element_and_filter
+
+serialization:
+  default_format: NDJSON
+  formats: [NDJSON, CSV]
+  param: export_type
+  cli_formats: [csv, xls, xlsx, gsheet]
+  binary:
+    - {tool: sf_get_url_screenshot, behaviour: 'returns a base64-encoded image string when no file_path is supplied'}
+    - {tool: sf_url_content, behaviour: 'returns base64-encoded image content for image URLs, text content for HTML URLs'}
+
+null_semantics:
+  rule: >-
+    "Fields with value null mean the information is unavailable. Do not guess or infer
+    missing values."
+  source_tool: sf_export_seo_element_urls
+  note: >-
+    This is a rare and valuable thing for a provider to state in a tool description — an
+    explicit instruction to the model not to hallucinate around gaps in crawl data. Treat
+    it as binding across every export, not just the one tool it is written on.
+
+filesystem:
+  model: single allowed base directory
+  rule: Every `path` and `file_path` parameter is relative to the allowed base directory; subdirectories are accessible.
+  discovery_tool: sf_list_allowed_base_directory
+  configuration: "'Settings > MCP Server' defines the directory for all scripts, tool outputs and installed packages."
+  response_switching: >-
+    Every export tool takes an OPTIONAL file_path. Supplied, the tool writes to disk and
+    returns a path; omitted, it returns the content inline. This is the primary control an
+    agent has over context-window blowup.
+
+capability_discovery:
+  pattern: list-then-call
+  tools:
+    - sf_list_available_reports
+    - sf_list_available_bulk_exports
+    - sf_list_available_filters_for_seo_element
+    - sf_list_available_data_fields_for_seo_element_and_filter
+    - sf_list_crawls
+  note: >-
+    Report, bulk export and filter names are the same strings the desktop UI menus use,
+    and they change between versions. The provider's documented convention is to call the
+    matching list tool first rather than hard-coding a category string.
+
+naming:
+  tool_prefix: sf_
+  category_separator: ':'
+  category_format: "'Category:Subcategory' for nested reports and bulk exports"
+  cli_equivalent: '--export-tabs "Internal:All,Response Codes:Client Error (4xx)"'
+  note: The same colon-delimited menu-path convention is used identically by the CLI and the MCP server.
+
+errors:
+  catalog_published: false
+  note: >-
+    No error catalogue, error code list or envelope shape is published for either surface.
+    The provider suggests observing tool calls in a client that surfaces them (LM Studio)
+    as "a good way to see if the Spider is supplying expected descriptions and error
+    messages to the LLM" — an admission that error text is the diagnostic, and it is not
+    documented.
+  cli_troubleshooting:
+    - A headless crawl exports nothing if --output-folder does not exist and --timestamped-output is not used.
+    - An argument quoted with a trailing backslash before the closing quote will be escaped.
+
+rate_limiting:
+  signalled: false
+  note: See rate-limits/screaming-frog-rate-limits.yml — nothing is metered or throttled.
+
+versioning:
+  surface_versioning: none
+  note: >-
+    Tools are not versioned independently; the tool set is whatever the installed SEO
+    Spider build ships. An agent cannot negotiate a version — see
+    lifecycle/screaming-frog-lifecycle.yml.
+
+security:
+  - Node tools (sf_run_node_js_script, sf_npm_install) are disabled by default and must be enabled in 'File > Settings > MCP Server'.
+  - 'Script arguments "must not start with a dash (-)" and "scripts should treat these as untrusted input" — the provider''s own words.'
+  - sf_open_url_in_browser will open a local file path or a web address on the operator's machine.
+  - >-
+    The combination of an arbitrary Node script runner, npm install and read/write
+    filesystem access inside one server is powerful and the provider says so plainly:
+    "only grant permission if you fully trust the LLM."
+
+cross_links:
+  lifecycle: lifecycle/screaming-frog-lifecycle.yml
+  rate_limits: rate-limits/screaming-frog-rate-limits.yml
+  plans: plans/screaming-frog-plans-pricing.yml
+  cli: cli/screaming-frog-cli.yml
+  mcp: mcp/screaming-frog-mcp.yml
+  data_model: data-model/screaming-frog-data-model.yml
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

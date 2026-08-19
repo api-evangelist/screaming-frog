@@ -1,0 +1,147 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.screamingfrog.co.uk/seo-spider/user-guide/general/#command-line
+provider: Screaming Frog
+providerId: screaming-frog
+name: Screaming Frog SEO Spider Command Line Interface
+description: >-
+  The SEO Spider can be operated entirely from the command line — launching, full
+  configuration, saving and exporting of almost any data and reporting — and can run
+  completely headless. This is the automation surface Screaming Frog actually ships:
+  there is no REST API, so scheduled audits, CI integration and the MCP server all
+  drive the product through this CLI.
+
+binaries:
+  - platform: windows
+    binary: ScreamingFrogSEOSpiderCli.exe
+    location: 'C:\Program Files (x86)\Screaming Frog SEO Spider'
+    note: >-
+      Windows ships a separate console build (ScreamingFrogSEOSpiderCli.exe rather than
+      ScreamingFrogSEOSpider.exe) that behaves like a typical console application.
+  - platform: macos
+    binary: /Applications/Screaming Frog SEO Spider.app/Contents/MacOS/ScreamingFrogSEOSpiderLauncher
+    alternative: 'open "/Applications/Screaming Frog SEO Spider.app" --args ...'
+    note: >-
+      The `open` command returns immediately; the launcher script logs to the terminal
+      until the SEO Spider exits, and closing the terminal kills it.
+  - platform: linux
+    binary: screamingfrogseospider
+    location: placed on PATH during installation
+    note: >-
+      JavaScript rendering headless on Linux requires a display; the provider documents
+      using a virtual frame buffer (Xvfb).
+
+help:
+  command: --help
+  subtopics:
+    - '--help export-tabs'
+    - '--help bulk-export'
+    - '--help save-report'
+    - '--help export-custom-summary'
+
+headless_setup:
+  licence_file:
+    path: .ScreamingFrogSEOSpider/licence.txt
+    format: username on line one, licence key on line two
+  eula:
+    file: spider.config
+    property: eula.accepted=15
+    note: version number may need adjusting to a later version
+  storage_mode:
+    file: spider.config
+    property: storage.mode=MEMORY
+    default: database
+    db_dir_property: storage.db_dir
+  embedded_browser:
+    file: spider.config
+    property: embeddedBrowser.enable=false
+  memory_allocation:
+    file: '~/.screamingfrogseospider'
+    example: '-Xmx8g'
+    note: recommended to set via 'File > Settings > Memory Allocation' in the UI where available
+
+commands:
+  - group: crawl
+    options:
+      - {flag: '--crawl', arg: 'https://www.example.com', description: Start crawling the supplied URL.}
+      - {flag: '--crawl-list', arg: '"list file"', description: Start crawling the specified URLs in list mode.}
+      - {flag: '--load-crawl', arg: '"crawl file" | "database crawl ID"', description: 'Load a saved .seospider or .dbseospider crawl, or a database crawl by ID (from File > Crawls, right-click Copy Database ID).'}
+      - {flag: '--list-crawls', description: View database crawl IDs in the CLI.}
+      - {flag: '--crawl-comparison', arg: '<database Id> <database Id>', description: Perform a crawl comparison between the two supplied crawls, using crawl date to determine current vs previous.}
+      - {flag: '--project-crawl-comparison', arg: '"true"', description: Auto compare the last two crawls in a project.}
+      - {flag: '--headless', description: Run in silent mode without a user interface.}
+      - {flag: '--save-crawl', description: Save the completed crawl.}
+  - group: configuration
+    options:
+      - {flag: '--config', arg: '"config"', description: 'Supply a saved .seospiderconfig configuration file. Required for any feature without a dedicated flag (exclude, JavaScript rendering, and so on).'}
+      - {flag: '--auth-config', arg: '"authconfig"', description: Supply a saved .seospiderauthconfig authentication configuration file.}
+      - {flag: '--project-name', arg: '"Name"', description: Project name used for storing the crawl in database storage mode and for the Google Drive folder name.}
+      - {flag: '--task-name', arg: '"Name"', description: Task name used for the crawl name in database storage mode and as the Google Drive child folder.}
+      - {flag: '--help', description: View the list of options.}
+  - group: output
+    options:
+      - {flag: '--output-folder', arg: '"output"', description: 'Store saved files. Default: current working directory.'}
+      - {flag: '--overwrite', description: Overwrite files in output directory.}
+      - {flag: '--timestamped-output', description: Create a timestamped folder in the output directory (and in Google Drive) and store all output there.}
+      - {flag: '--export-format', arg: 'csv | xls | xlsx | gsheet', description: Format used for all exports. Google Sheets also requires a Google Drive account.}
+      - {flag: '--google-drive-account', arg: '"google account"', description: Use a Google Drive account for Google Sheets exporting.}
+  - group: export
+    options:
+      - {flag: '--export-tabs', arg: '"tab:filter,..."', description: 'Comma separated list of tabs and filters to export, e.g. "Internal:All,Response Codes:Client Error (4xx)".'}
+      - {flag: '--bulk-export', arg: '"submenu:export,..."', description: 'Comma separated list of bulk exports, e.g. "Response Codes:Internal & External:Client Error (4xx) Inlinks".'}
+      - {flag: '--save-report', arg: '"submenu:report,..."', description: 'Comma separated list of reports to save, e.g. "Redirects:All Redirects".'}
+      - {flag: '--export-custom-summary', arg: '"item 1,item 2,..."', description: "Items for the 'Export For Data Studio' Custom Crawl Overview report. Requires a Google Drive account."}
+      - {flag: '--create-sitemap', description: Creates a sitemap from the completed crawl.}
+      - {flag: '--create-images-sitemap', description: Creates an images sitemap from the completed crawl.}
+  - group: third-party-api-integrations
+    note: >-
+      These flags make the SEO Spider a CONSUMER of third-party APIs during a crawl.
+      They are not Screaming Frog API endpoints. Google Analytics and Search Console
+      require OAuth authorisation through the UI first, after which the 'analytics' and
+      'search_console' folders can be copied to a headless machine. PSI, Ahrefs, Majestic
+      and Moz keys are set in spider.config as PSI.secretkey, ahrefs.authkey,
+      majestic.authkey and moz.secretkey.
+    options:
+      - {flag: '--use-google-analytics', arg: '"google account" "account" "property" "view" "segment"', description: Use the Google Universal Analytics API during crawl.}
+      - {flag: '--use-google-analytics-4', arg: '"google account" "account" "property" "data stream"', description: Use the Google Analytics 4 API during crawl.}
+      - {flag: '--use-google-search-console', arg: '"google account" "website"', description: Use the Google Search Console API during crawl.}
+      - {flag: '--use-pagespeed', description: Use the PageSpeed Insights API during crawl.}
+      - {flag: '--use-majestic', description: Use the Majestic API during crawl.}
+      - {flag: '--use-mozscape', description: Use the Mozscape API during crawl.}
+      - {flag: '--use-ahrefs', description: Use the Ahrefs API during crawl.}
+  - group: notification
+    options:
+      - {flag: '--email-on-complete', arg: 'address', description: Email on completion of a crawl.}
+
+flows:
+  - name: Headless crawl with tab exports
+    command: >-
+      screamingfrogseospider --crawl https://www.example.com --headless --save-crawl
+      --output-folder /tmp/cli --export-tabs "Internal:All,Response Codes:Client Error (4xx)"
+  - name: Reopen a saved crawl and export
+    command: >-
+      screamingfrogseospider --headless --load-crawl ~/Desktop/crawl.seospider
+      --output-folder ~/Desktop/ --export-tabs "Internal:All"
+  - name: Scheduled comparison of the last two project crawls
+    command: >-
+      screamingfrogseospider --headless --project-name "Awesome Project"
+      --project-crawl-comparison "true" --output-folder /tmp/cli
+
+troubleshooting:
+  - If a headless crawl fails to export any results, ensure --output-folder exists and is either empty or --timestamped-output is used.
+  - When quoting an argument, do not finish with a backslash before the quote — it will be escaped.
+
+limitations:
+  - >-
+    Not every configuration option has a command line flag. Anything without one (exclude
+    rules, JavaScript rendering, and similar) must be set in the UI, saved as a
+    .seospiderconfig profile, and supplied with --config.
+
+related:
+  scheduling: https://www.screamingfrog.co.uk/seo-spider/user-guide/general/#scheduling
+  mcp_server: mcp/screaming-frog-mcp.yml
+  packages: packages/screaming-frog-packages.yml
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

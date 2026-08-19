@@ -1,0 +1,115 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.screamingfrog.co.uk/seo-spider/release-history/
+provider: Screaming Frog
+providerId: screaming-frog
+name: Screaming Frog SEO Spider Release History
+description: >-
+  Screaming Frog maintains a dated release history table for the SEO Spider going back to
+  2011, listing every version with its release date and headline features. It is a
+  product changelog for a desktop application — there is no API version log, because
+  there is no API. Recent window captured below.
+
+scheme: semver-like
+scheme_note: >-
+  MAJOR.MINOR only (24.0, 24.1, ...). MAJOR releases carry features; MINOR releases are
+  almost always "Bug fixes." No PATCH component and no pre-release channel is published.
+current_version: '24.3'
+current_version_date: '2026-06-29'
+cadence_note: >-
+  Roughly one feature-bearing MAJOR release per year in recent years (21.0 Nov 2024,
+  22.0 Jun 2025, 23.0 Oct 2025, 24.0 May 2026), with bug-fix MINORs in between.
+format: html-table
+machine_readable: false
+machine_readable_note: No RSS, JSON or Atom feed is offered for the release history table.
+
+entries:
+  - version: '24.3'
+    date: '2026-06-29'
+    breaking: false
+    highlights: [Bug fixes.]
+  - version: '24.2'
+    date: '2026-06-22'
+    breaking: false
+    highlights: [Bug fixes.]
+  - version: '24.1'
+    date: '2026-06-08'
+    breaking: false
+    highlights: [Bug fixes.]
+    note: The MCP client extension (spider-mcp.mcpb) requires 24.1 or later.
+  - version: '24.0'
+    date: '2026-05-19'
+    breaking: false
+    additions:
+      - Screaming Frog SEO Spider MCP
+      - Auto Compare Crawls
+      - View Crawl Changes in Email Notifications
+      - Send Crawl Export Attachments by Email
+      - Find Uncrawlable Links
+      - Usage Stats
+      - Arm64 Linux versions
+    highlights:
+      - First-party Model Context Protocol server built into the desktop app — the company's first agent surface.
+      - Java upgraded to 25.
+    announcement: https://www.screamingfrog.co.uk/blog/seo-spider-24/
+  - version: '23.3'
+    date: '2026-02-18'
+    breaking: false
+    highlights: [Bug fixes.]
+  - version: '23.2'
+    date: '2025-12-16'
+    breaking: false
+    highlights: [Bug fixes.]
+  - version: '23.1'
+    date: '2025-11-18'
+    breaking: false
+    highlights: [Bug fixes.]
+  - version: '23.0'
+    date: '2025-10-20'
+    breaking: false
+    additions:
+      - Lighthouse & PSI Integration updated to Insight Audits
+      - Ahrefs v3 API update
+      - Auto-deleting crawls (crawl retention)
+      - Semantic similarity embedding rules
+      - Display all links in visualisations
+      - Display links in semantic content cluster diagram
+  - version: '22.2'
+    date: '2025-07-02'
+    breaking: false
+    highlights: [Bug fixes.]
+  - version: '22.1'
+    date: '2025-06-18'
+    breaking: false
+    highlights: [Bug fixes.]
+  - version: '22.0'
+    date: '2025-06-10'
+    breaking: false
+    additions:
+      - Semantic similarity analysis
+      - Semantic content cluster visualisation
+      - Semantic search
+      - AI integration improvements
+      - Advanced column configurator
+      - Custom multi-export
+      - Export to multiple tabs in single sheet/workbook
+      - Download multiple XML sitemaps
+      - Download from Google Sheets
+      - APIs mode
+  - version: '21.0'
+    date: '2024-11-12'
+    breaking: false
+    additions:
+      - Direct AI API integration (OpenAI, Gemini, Ollama)
+      - Accessibility auditing
+      - Email notifications
+      - Custom search bulk upload
+
+other_products:
+  - name: Screaming Frog Log File Analyser
+    changelog: https://www.screamingfrog.co.uk/log-file-analyser/release-history/
+    current_version: '7.1'
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

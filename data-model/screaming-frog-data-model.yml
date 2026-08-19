@@ -1,0 +1,163 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  json-schema/screaming-frog-crawl-result-schema.json ,
+  mcp/screaming-frog-mcp.yml (tool parameters and enums transcribed from
+  https://www.screamingfrog.co.uk/guides/mcp-server/) ,
+  vocabulary/screaming-frog-vocabulary.yml
+provider: Screaming Frog
+providerId: screaming-frog
+description: >-
+  Entity graph for the Screaming Frog SEO Spider crawl domain, derived from the repo's
+  existing crawl-result JSON Schema and from the entity boundaries the v24 MCP server
+  exposes as tool parameters and enums. There is no OpenAPI to derive from, so
+  relationships come from two places only: id-reference fields already modelled in the
+  JSON Schema, and the SEO element / link category / filter enumerations the provider
+  publishes in its MCP API reference. Nothing here is invented — where a cardinality was
+  not evidenced it is marked unknown.
+
+derivation_note: >-
+  This model is DISCOVERY-GRADE, not a published contract. Screaming Frog ships no schema
+  document of its own; the field names below are the ones the product surfaces in exports
+  and the ones the pipeline previously modelled. Treat it as a map of the domain, not as
+  a guarantee of wire format.
+
+entities:
+  - name: Crawl
+    description: A single crawl job, persisted in database storage mode and addressable by a database crawl ID.
+    identifier:
+      field: crawl_id
+      type: string
+      format: uuid
+      example_shape: 65a6a6a5-f1b5-4c8e-99ab-00b906e306c7
+      source: 'MCP sf_load_crawl / sf_list_crawls; UI File > Crawls > Copy Database ID'
+    fields:
+      - {name: crawl_id, type: string, note: database crawl ID}
+      - {name: crawl_name, type: string, note: 'optional, set via --task-name or sf_crawl crawl_name'}
+      - {name: project_name, type: string, note: groups crawls for comparison and Google Drive foldering}
+      - {name: crawl_url, type: string, format: uri, note: start URL}
+      - {name: crawl_date, type: string, format: date-time, note: 'used to decide current vs previous in a comparison'}
+    persisted_as: ['.seospider', '.dbseospider', 'database storage']
+
+  - name: URL
+    description: >-
+      One crawled address and everything recorded about it. The central entity — every
+      export, report and filter is ultimately a projection over URL rows.
+    identifier: {field: url, type: string, format: uri}
+    fields_from_schema:
+      - {name: url, type: string, format: uri, required: true}
+      - {name: status_code, type: integer, required: true}
+      - {name: status, type: string}
+      - {name: title, type: string}
+      - {name: title_length, type: integer}
+      - {name: meta_description, type: string}
+      - {name: meta_description_length, type: integer}
+      - {name: h1, type: string}
+      - {name: h2, type: string}
+      - {name: word_count, type: integer}
+      - {name: content_type, type: string}
+      - {name: size, type: integer, unit: bytes}
+      - {name: indexability, type: string, enum: [Indexable, Non-Indexable]}
+      - {name: indexability_status, type: string}
+      - {name: canonical_url, type: string, format: uri}
+      - {name: redirect_url, type: string, format: uri}
+      - {name: inlinks, type: integer, note: count}
+      - {name: outlinks, type: integer, note: count}
+      - {name: crawl_depth, type: integer}
+      - {name: response_time, type: number}
+    null_rule: >-
+      A null field means the information is unavailable. The provider instructs agents not
+      to guess or infer missing values (see conventions/screaming-frog-conventions.yml).
+
+  - name: Link
+    description: >-
+      A directed edge between two URLs, typed by link category. Retrieved per-URL through
+      sf_url_links and in bulk through the Links bulk exports.
+    fields:
+      - {name: source, type: string, format: uri}
+      - {name: destination, type: string, format: uri}
+      - {name: direction, type: string, enum: [inlinks, outlinks, unique_outlinks]}
+      - name: category
+        type: string
+        enum: [Hyperlink, JavaScript, CSS, Image, SWF, HTML Canonical, HTTP Canonical, HTML Rel PRev, HTTP Rel PRe, HTML Rel Next, HTTP Rel Next, HTTP Hreflang, HTML Hreflang, Sitemap Hreflang, HTTP Redirect, HSTS Redirect, JavaScript Redirect, Meta Refresh, Redirect, HTTP Refresh Redirect, XML Sitemap, AMPHTML, Mobile Alternate, Iframe, MISC, PDF, Video, Audio, Font]
+        source: MCP sf_url_links links_category enum
+      - {name: anchor_text, type: string, evidenced_by: 'Bulk Export > Links > All Anchor Text'}
+      - {name: path_type, type: string, enum: [absolute, protocol-relative, root-relative, path-relative], evidenced_by: 'Bulk Export > Path Type'}
+
+  - name: SEOElement
+    description: >-
+      A named analytical projection over the URLs in a crawl — the tabs in the UI and the
+      seo_element_name enum in the MCP. Each carries its own filter set.
+    enum: [JavaScript, H1, H2, Internal, External, AMP, Canonicals, Content, Custom Extraction, Custom Search, Custom JavaScript, Directives, Analytics, Search Console, Hreflang, Images, Link Metrics, Meta Description, Meta Keywords, PageSpeed, Pagination, Response Codes, Security, Sitemaps, Structured Data, Page Titles, URL, Change Detection, Links, Validation, Mobile, AI, Accessibility]
+    source: MCP sf_export_seo_element_urls seo_element_name enum
+    note: >-
+      Filters and available data fields per element are NOT enumerable statically — they
+      vary by build and configuration. The provider supplies discovery tools
+      (sf_list_available_filters_for_seo_element,
+      sf_list_available_data_fields_for_seo_element_and_filter) precisely because of this.
+
+  - name: Filter
+    description: A named subset within an SEO element (for example 'Client Error (4xx)' within 'Response Codes').
+    identifier: {field: filter_name, type: string}
+    discovery: sf_list_available_filters_for_seo_element
+    public_catalog: https://www.screamingfrog.co.uk/seo-spider/issues/
+    note: >-
+      Screaming Frog publishes a browsable catalogue of ~230 issue pages under
+      /seo-spider/issues/<element>/<filter>/, one per filter, each explaining the issue and
+      how to fix it. That catalogue is the closest thing the company has to a public
+      reference for this entity.
+
+  - name: Segment
+    description: A user-defined slice of a crawl; exports can be scoped to one segment or return all.
+    identifier: {field: segment_name, type: string}
+    source: MCP sf_export_seo_element_urls segment_name param
+
+  - name: Report
+    description: A named, pre-composed output (Reports menu in the UI), addressed by a colon-delimited category path.
+    identifier: {field: category, type: string, format: 'Category:Subcategory'}
+    discovery: sf_list_available_reports
+
+  - name: BulkExport
+    description: A named bulk dataset (Bulk Export menu in the UI), addressed by the same colon-delimited path convention.
+    identifier: {field: category, type: string, format: 'Submenu:Export'}
+    discovery: sf_list_available_bulk_exports
+
+  - name: Embedding
+    description: Vector embedding per URL, exported as CSV alongside the URL. Introduced with the semantic similarity work in v22.
+    fields:
+      - {name: url, type: string, format: uri}
+      - {name: embedding, type: array, items: number}
+    source: MCP sf_export_embeddings
+    dimensions: unknown
+
+  - name: Screenshot
+    description: Stored rendered-page image for a URL, captured in JavaScript rendering mode.
+    fields:
+      - {name: url, type: string, format: uri}
+      - {name: image, type: string, encoding: base64, note: returned inline when no file_path is given}
+    source: MCP sf_get_url_screenshot
+
+relationships:
+  - {from: Crawl, to: URL, type: has_many, via: crawl_id, confidence: high}
+  - {from: Crawl, to: Segment, type: has_many, via: segment_name, confidence: medium}
+  - {from: URL, to: Link, type: has_many, via: source, note: outlinks, confidence: high}
+  - {from: URL, to: Link, type: has_many, via: destination, note: inlinks, confidence: high}
+  - {from: URL, to: URL, type: has_one, via: canonical_url, note: 'self-referential; canonical target', confidence: high}
+  - {from: URL, to: URL, type: has_one, via: redirect_url, note: 'self-referential; redirect target, chainable', confidence: high}
+  - {from: URL, to: Screenshot, type: has_one, via: url, confidence: high}
+  - {from: URL, to: Embedding, type: has_one, via: url, confidence: medium}
+  - {from: SEOElement, to: Filter, type: has_many, via: filter_name, confidence: high}
+  - {from: SEOElement, to: URL, type: has_many, via: 'projection, not a foreign key', confidence: high}
+  - {from: Crawl, to: Crawl, type: compared_with, via: 'crawl date within project_name', note: 'sf crawl comparison / --crawl-comparison', confidence: high}
+
+id_prefixes: []
+id_prefix_note: >-
+  No typed id prefixes exist. Crawls are identified by a bare UUID; every other entity is
+  addressed by its URL string or by a human-readable menu-path name.
+
+render: null
+render_note: No subway/ diagram exists in this repo for Screaming Frog.
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

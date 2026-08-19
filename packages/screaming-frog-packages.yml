@@ -1,0 +1,191 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://www.screamingfrog.co.uk/seo-spider/ ,
+  https://www.screamingfrog.co.uk/log-file-analyser/ ,
+  https://formulae.brew.sh/api/cask/ , https://registry.npmjs.org/ , https://pypi.org/pypi/
+provider: Screaming Frog
+providerId: screaming-frog
+description: >-
+  Screaming Frog ships desktop applications, not API client libraries. There is no
+  first-party SDK on any package registry, because there is no Screaming Frog API to
+  wrap — automation is done through the SEO Spider CLI and, since v24, the built-in MCP
+  server. The entries below record what is actually distributed: versioned direct
+  downloads from download.screamingfrog.co.uk, the two unpinned MCP extension bundles,
+  community Homebrew casks, and a small set of first-party npm packages that are
+  internal front-end components for screamingfrog.co.uk rather than API clients.
+
+sdk_count: 0
+sdk_note: >-
+  No official API client library exists in any registry, and none should — the products
+  are desktop binaries. This artifact deliberately does NOT carry an `SDKs` pointer in
+  apis.yml; recording zero SDKs is the honest measurement, not a gap to be papered over.
+
+packages:
+  - name: Screaming Frog SEO Spider
+    language: java
+    registry: direct
+    kind: desktop-application
+    official: true
+    url: https://www.screamingfrog.co.uk/seo-spider/
+    version: '24.3'
+    published: '2026-06-29'
+    published_source: https://www.screamingfrog.co.uk/seo-spider/release-history/
+    artifacts:
+      - {platform: windows, url: 'https://download.screamingfrog.co.uk/products/seo-spider/ScreamingFrogSEOSpider-24.3.exe', http_status: 200}
+      - {platform: macos-arm64, url: 'https://download.screamingfrog.co.uk/products/seo-spider/ScreamingFrogSEOSpider-24.3-aarch64.dmg'}
+      - {platform: macos-x86_64, url: 'https://download.screamingfrog.co.uk/products/seo-spider/ScreamingFrogSEOSpider-24.3-x86_64.dmg'}
+      - {platform: ubuntu-amd64, url: 'https://download.screamingfrog.co.uk/products/seo-spider/screamingfrogseospider_24.3_amd64.deb', http_status: 200}
+      - {platform: ubuntu-arm64, url: 'https://download.screamingfrog.co.uk/products/seo-spider/screamingfrogseospider_24.3_arm64.deb'}
+      - {platform: fedora-x86_64, url: 'https://download.screamingfrog.co.uk/products/seo-spider/screamingfrogseospider-24.3-1.x86_64.rpm'}
+      - {platform: fedora-aarch64, url: 'https://download.screamingfrog.co.uk/products/seo-spider/screamingfrogseospider-24.3-1.aarch64.rpm'}
+    note: >-
+      Download URLs are version-pinned, so currency is readable directly from the URL.
+      No registry metadata endpoint exists for a direct-download desktop product; the
+      published date is taken from the provider's own dated release history.
+
+  - name: Screaming Frog Log File Analyser
+    language: java
+    registry: direct
+    kind: desktop-application
+    official: true
+    url: https://www.screamingfrog.co.uk/log-file-analyser/
+    version: '7.1'
+    published: null
+    published_source: https://www.screamingfrog.co.uk/log-file-analyser/release-history/
+    artifacts:
+      - {platform: windows, url: 'https://download.screamingfrog.co.uk/products/log-file-analyser/ScreamingFrogLogFileAnalyser-7.1.exe'}
+      - {platform: macos-arm64, url: 'https://download.screamingfrog.co.uk/products/log-file-analyser/ScreamingFrogLogFileAnalyser-7.1-aarch64.dmg'}
+      - {platform: macos-x86_64, url: 'https://download.screamingfrog.co.uk/products/log-file-analyser/ScreamingFrogLogFileAnalyser-7.1-x86_64.dmg'}
+      - {platform: ubuntu-amd64, url: 'https://download.screamingfrog.co.uk/products/log-file-analyser/screamingfroglogfileanalyser_7.1_amd64.deb'}
+      - {platform: ubuntu-arm64, url: 'https://download.screamingfrog.co.uk/products/log-file-analyser/screamingfroglogfileanalyser_7.1_arm64.deb'}
+      - {platform: fedora-x86_64, url: 'https://download.screamingfrog.co.uk/products/log-file-analyser/screamingfroglogfileanalyser-7.1-1.x86_64.rpm'}
+      - {platform: fedora-aarch64, url: 'https://download.screamingfrog.co.uk/products/log-file-analyser/screamingfroglogfileanalyser-7.1-1.aarch64.rpm'}
+    note: >-
+      Version read from the pinned download URLs. `published: null` — checked, but the
+      exact release date for 7.1 was not read from the LFA release history in this pass.
+      Version 7.0 was announced on the provider blog on 29 April 2026.
+
+  - name: spider-stdio-mcp.mcpb
+    language: n/a
+    registry: cdn
+    kind: mcp-client-extension
+    official: true
+    url: https://download.screamingfrog.co.uk/products/seo-spider/spider-stdio-mcp.mcpb
+    http_status: 200
+    version: null
+    published: null
+    note: >-
+      Claude Desktop MCP extension bundle for STDIO mode. The distribution URL is
+      UNPINNED — it floats to whatever the provider last published, so a consumer cannot
+      tell which build they are installing, and neither can this pipeline. That is the
+      finding, recorded as null rather than guessed. The provider states the file
+      assumes a default install location and must be edited otherwise.
+
+  - name: spider-streamable-mcp.mcpb
+    language: n/a
+    registry: cdn
+    kind: mcp-client-extension
+    official: true
+    url: https://download.screamingfrog.co.uk/products/seo-spider/spider-streamable-mcp.mcpb
+    http_status: 200
+    version: null
+    published: null
+    note: >-
+      Claude Desktop MCP extension bundle for Streamable HTTP mode (loopback). Same
+      unpinned-distribution finding as the STDIO bundle.
+
+  - name: screaming-frog-seo-spider
+    language: n/a
+    registry: homebrew-cask
+    kind: package-manager-wrapper
+    official: false
+    url: https://formulae.brew.sh/cask/screaming-frog-seo-spider
+    install: brew install --cask screaming-frog-seo-spider
+    version: '24.3'
+    published: null
+    note: >-
+      Community-maintained Homebrew cask that installs the provider's own .dmg. Not
+      first-party. Version tracks the vendor build (24.3 as read from the cask JSON API);
+      Homebrew casks carry no per-version publish timestamp in that API, hence null.
+
+  - name: screaming-frog-log-file-analyser
+    language: n/a
+    registry: homebrew-cask
+    kind: package-manager-wrapper
+    official: false
+    url: https://formulae.brew.sh/cask/screaming-frog-log-file-analyser
+    install: brew install --cask screaming-frog-log-file-analyser
+    version: '7.1'
+    published: null
+    note: Community-maintained Homebrew cask that installs the provider's own .dmg. Not first-party.
+
+  - name: '@screamingfrog/vue'
+    language: javascript
+    registry: npm
+    kind: internal-web-component
+    official: true
+    url: https://www.npmjs.com/package/@screamingfrog/vue
+    install: npm install @screamingfrog/vue
+    version: 0.6.0
+    published: '2022-01-13'
+    note: >-
+      First-party by evidence — package repository field points at
+      git+https://github.com/screamingfrog/webdev.git, the provider's own GitHub org.
+      These are Vue components for the screamingfrog.co.uk website, NOT a client library
+      for any Screaming Frog API. Last published January 2022.
+
+  - name: '@screamingfrog/utils'
+    language: javascript
+    registry: npm
+    kind: internal-web-component
+    official: true
+    url: https://www.npmjs.com/package/@screamingfrog/utils
+    version: 0.1.5
+    published: null
+    note: Same @screamingfrog npm scope; internal site utilities, not an API SDK. Publish date not read in this pass.
+
+  - name: '@screamingfrog/mfc-cdn'
+    language: javascript
+    registry: npm
+    kind: internal-web-component
+    official: true
+    url: https://www.npmjs.com/package/@screamingfrog/mfc-cdn
+    version: 1.0.17
+    published: '2021-11-03'
+    note: Same @screamingfrog npm scope; internal, no repository or homepage declared. Not an API SDK.
+
+third_party:
+  - name: screamingfrog
+    language: python
+    registry: pypi
+    official: false
+    url: https://pypi.org/project/screamingfrog/
+    version: 0.2.8
+    published: '2026-07-15'
+    note: >-
+      Community library for working with SEO Spider crawl data (author "Antonio").
+      Not affiliated with Screaming Frog Ltd.
+  - name: screaming-frog-mcp
+    language: python
+    registry: pypi
+    official: false
+    url: https://pypi.org/project/screaming-frog-mcp/
+    repo: https://github.com/bzsasson/screaming-frog-mcp
+    version: 0.4.0
+    published: '2026-06-12'
+    note: >-
+      Community MCP server that shells out to the SEO Spider CLI. Predates and is
+      distinct from the provider's own built-in MCP server (SEO Spider v24).
+
+github_organization:
+  url: https://github.com/screamingfrog
+  public_repos: 12
+  note: >-
+    The public org holds forks and upstream mirrors used to build the desktop apps
+    (jdk25u, jfx, ChromeDevToolsClient, controlsfx, NSMenuFX, any23, flat-manager) plus
+    fetch-and-render. It publishes no SDK, no API spec and no product source.
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

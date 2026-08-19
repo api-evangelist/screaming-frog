@@ -1,0 +1,40 @@
+generated: '2026-08-13'
+method: generated
+source: >-
+  https://www.screamingfrog.co.uk/guides/mcp-server/ ,
+  https://www.screamingfrog.co.uk/seo-spider/user-guide/general/#command-line
+provider: Screaming Frog
+providerId: screaming-frog
+description: >-
+  Packaged Agent Skills for the two machine-callable Screaming Frog surfaces. Screaming
+  Frog publishes no OpenAPI, so these are not grounded in operationIds — they are grounded
+  in the provider's own published MCP tool names and CLI flags, each transcribed verbatim
+  from the pages cited above. No tool name, parameter or flag in these skills was invented.
+grounding: mcp-tools-and-cli-flags
+provider_published_skills: none
+provider_published_skills_note: >-
+  No AGENTS.md, skills/ directory or agent instruction file is published by Screaming Frog.
+  Searched the docs host and the GitHub org; nothing found.
+
+skills:
+  - name: screaming-frog-technical-seo-audit
+    file: screaming-frog-technical-seo-audit.md
+    surface: mcp
+    description: Crawl a site and produce a prioritised issue report without overflowing the context window.
+  - name: screaming-frog-broken-link-report
+    file: screaming-frog-broken-link-report.md
+    surface: mcp
+    description: Export broken links together with their inlinks, so the output is a fix list.
+  - name: screaming-frog-scheduled-headless-crawl
+    file: screaming-frog-scheduled-headless-crawl.md
+    surface: cli
+    description: Unattended headless crawl for cron/CI, including crawl-over-crawl comparison.
+
+prerequisites:
+  - A licensed Screaming Frog SEO Spider v24+ installed on the machine running the agent.
+  - Database storage mode (the default) for MCP and for crawl comparison.
+  - For MCP, the Node.js runtime accepted under 'File > Settings > MCP Server' if script tools are used.
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

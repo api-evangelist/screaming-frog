@@ -1,0 +1,46 @@
+generated: '2026-08-13'
+method: probed
+source: live HTTP probes of the hosts named in apis.yml
+provider: Screaming Frog
+providerId: screaming-frog
+description: >-
+  Probe of the RFC 9116 / OIDC / OAuth / api-catalog / ai-plugin discovery surface.
+  Every path returned 404 with an HTML body — screamingfrog.co.uk is a WordPress site
+  whose 404 handler serves the normal site template, so none of these are documents.
+  No WellKnown or SecurityTxt pointer is emitted in apis.yml: this file records an
+  absence, and an absence must not be scored as a presence.
+
+hits: 0
+
+hosts:
+  - host: https://www.screamingfrog.co.uk
+    documents:
+      - {path: /.well-known/security.txt, status: 404, content_type: 'text/html; charset=UTF-8', file: null}
+      - {path: /.well-known/openid-configuration, status: 404, content_type: 'text/html; charset=UTF-8', file: null}
+      - {path: /.well-known/oauth-authorization-server, status: 404, content_type: 'text/html; charset=UTF-8', file: null}
+      - {path: /.well-known/api-catalog, status: 404, content_type: 'text/html; charset=UTF-8', file: null}
+      - {path: /.well-known/ai-plugin.json, status: 404, content_type: 'text/html; charset=UTF-8', file: null}
+      - {path: /.well-known/agent-card.json, status: 404, content_type: 'text/html; charset=UTF-8', file: null}
+      - {path: /.well-known/agent.json, status: 404, content_type: 'text/html; charset=UTF-8', file: null}
+      - {path: /llms.txt, status: 404, content_type: 'text/html; charset=UTF-8', file: null}
+      - {path: /robots.txt, status: 200, content_type: 'text/plain; charset=UTF-8', file: null, note: 'served, but not a /.well-known/ discovery document — recorded for completeness'}
+
+contract_discovery:
+  note: >-
+    STEP 0b contract discovery was run against the only host this provider names.
+    apis.yml declares no baseURL and the repo holds no OpenAPI, so there is no separate
+    API host or servers[] host to probe.
+  probes:
+    - {url: 'https://www.screamingfrog.co.uk/openapi.json', status: 404, result: 'HTML 404 shell, not a spec'}
+    - {url: 'https://www.screamingfrog.co.uk/swagger.json', status: 404, result: 'HTML 404 shell, not a spec'}
+    - {url: 'https://www.screamingfrog.co.uk/api-docs', status: 404, result: 'HTML 404 shell'}
+    - {url: 'https://www.screamingfrog.co.uk/graphql', status: 404, result: 'no GraphQL surface; introspection not attempted'}
+  conclusion: >-
+    Screaming Frog publishes no REST, GraphQL or AsyncAPI contract, and no A2A agent
+    card. This is not a discovery failure — the company sells desktop software. Its
+    machine-readable surface is the SEO Spider CLI and, since v24, a first-party MCP
+    server that runs inside the licensed desktop install (see mcp/screaming-frog-mcp.yml).
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

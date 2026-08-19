@@ -1,0 +1,295 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.screamingfrog.co.uk/guides/mcp-server/
+provider: Screaming Frog
+providerId: screaming-frog
+name: Screaming Frog SEO Spider MCP Server
+status: published
+description: >-
+  First-party Model Context Protocol server built into the Screaming Frog SEO Spider
+  desktop application from version 24.0 (19 May 2026). It exposes the crawler's reports,
+  bulk exports, SEO element datasets, URL-level inspection, screenshots and embeddings
+  to an MCP client, plus a Node.js script runner, an npm install tool and a
+  sandboxed filesystem tool group scoped to a single configurable base directory.
+  The server runs inside the user's own licensed installation — there is no hosted
+  or remote Screaming Frog MCP endpoint.
+
+deployment:
+  mode: local-stdio
+  endpoint: null
+  install: >-
+    Download spider-stdio-mcp.mcpb from
+    https://download.screamingfrog.co.uk/products/seo-spider/spider-stdio-mcp.mcpb
+    and install it in Claude Desktop via 'Settings > Extensions > Advanced Settings >
+    Install Extension'. The client then launches the SEO Spider in headless CLI mode.
+  package: https://download.screamingfrog.co.uk/products/seo-spider/spider-stdio-mcp.mcpb
+  auth: none
+  verified: searched
+  note: >-
+    Recorded as local-stdio, not remote. The SEO Spider also offers a "Streamable HTTP"
+    transport, but the URL the provider documents is http://localhost:11435/mcp — the
+    server is the user's own desktop application listening on loopback, started manually
+    from the app's 'MCP' menu. No agent can reach a Screaming Frog MCP endpoint over the
+    internet; a licensed install on the same machine is required in both modes.
+
+transports:
+  - name: stdio
+    default: true
+    description: >-
+      Client (e.g. Claude Desktop) launches the SEO Spider in CLI mode; the UI is not
+      visible and the app runs headless. Communication over standard input/output.
+    extension: https://download.screamingfrog.co.uk/products/seo-spider/spider-stdio-mcp.mcpb
+  - name: streamable-http
+    default: false
+    url: http://localhost:11435/mcp
+    scope: loopback-only
+    description: >-
+      The SEO Spider starts in UI mode and the MCP server is started/stopped from the
+      'MCP' top-level menu; the app then exposes the MCP server URL locally. Documented
+      for LM Studio via an mcp.json entry naming "screaming-frog-mcp-server".
+    extension: https://download.screamingfrog.co.uk/products/seo-spider/spider-streamable-mcp.mcpb
+
+requirements:
+  - Screaming Frog SEO Spider version 24 or later installed locally (MCP extension shipped with 24.1).
+  - A paid licence — the provider states this is "a paid licence feature only. It will not work in the free version."
+  - Database storage mode ('File > Settings > Storage Mode'), which is the default.
+  - Node.js runtime environment accepted and enabled under 'File > Settings > MCP Server' (required for the node/script tools; disabled by default).
+
+clients_documented:
+  - name: Claude Desktop
+    modes: [stdio, streamable-http]
+  - name: LM Studio
+    modes: [streamable-http]
+
+security_notes:
+  - >-
+    Node tools (script runner + npm install) are disabled by default and must be
+    explicitly enabled in 'File > Settings > MCP Server'.
+  - >-
+    Filesystem tools are constrained to a single configurable base directory; every
+    path parameter is documented as "relative to the allowed base directory".
+  - >-
+    The provider states: "Allowing LLMs to run arbitrary scripts introduces inherent
+    security risks ... only grant permission if you fully trust the LLM."
+  - >-
+    Licensing and privacy remain the operator's responsibility — the provider requires
+    that the software "is not accessed or interacted with by anyone other than the
+    licensed user".
+
+tool_count: 29
+tools:
+  - name: sf_list_crawls
+    category: crawl-management
+    description: Retrieves a list of recent web crawl jobs, ordered chronologically with the most recent first. Defaults to the 10 latest crawls.
+    params:
+      - {name: limit, type: integer, required: false, description: 'The number of recent crawls to return. Defaults to 10'}
+  - name: sf_load_crawl
+    category: crawl-management
+    description: Loads a crawl into the SEO Spider application.
+    params:
+      - {name: crawl_id, type: string, required: true, description: The crawl id}
+  - name: sf_export_crawl
+    category: crawl-management
+    description: Export the currently loaded crawl.
+    params:
+      - {name: crawl_id, type: string, required: true, description: File path (relative to the allowed base directory) to export the crawl to}
+  - name: sf_crawl
+    category: crawl-control
+    description: Starts a crawl with optional config.
+    params:
+      - {name: crawl_url, type: string, required: true, description: Start URL to crawl from}
+      - {name: config_path, type: string, required: false, description: Optional path to configuration file}
+      - {name: project_name, type: string, required: false, description: Optional project name}
+      - {name: crawl_name, type: string, required: false, description: Optional crawl name for the crawl}
+  - name: sf_pause_crawl
+    category: crawl-control
+    description: Pauses a running crawl.
+    params: []
+  - name: sf_resume_crawl
+    category: crawl-control
+    description: Resumes a paused crawl.
+    params: []
+  - name: sf_clear_crawl
+    category: crawl-control
+    description: Clear a paused crawl.
+    params: []
+  - name: sf_crawl_progress
+    category: crawl-control
+    description: Get the progress of a running crawl.
+    params: []
+  - name: sf_generate_report
+    category: export
+    description: Generates a report for the requested category. Use sf_list_available_reports to get a list of all available reports.
+    params:
+      - {name: category, type: string, required: true, description: "Colon delimited report category. Use 'Category:Subcategory' format for nested reports"}
+      - {name: file_path, type: string, required: false, description: Optional file path relative to the allowed base directory. If omitted, returns the content as a string.}
+      - {name: data_fields, type: array, required: false, description: The data fields to export. If empty all available data fields will be exported}
+      - {name: export_type, type: string, required: false, enum: [CSV, NDJSON], description: 'Format of export. The default is NDJSON'}
+  - name: sf_generate_bulk_export
+    category: export
+    description: Generates a bulk export for the requested category. Use sf_list_available_bulk_exports to get a list of all available bulk exports.
+    params:
+      - {name: category, type: string, required: true, description: "Colon delimited report category. Use 'Category:Subcategory' format for nested reports"}
+      - {name: file_path, type: string, required: false, description: Optional file path relative to the allowed base directory}
+      - {name: data_fields, type: array, required: false, description: The data fields to export. If empty all available data fields will be exported}
+      - {name: export_type, type: string, required: false, enum: [CSV, NDJSON], description: 'Format of export. The default is NDJSON'}
+  - name: sf_bulk_export_page_content
+    category: export
+    description: Bulk-exports page content for all crawled HTML URLs in NDJSON format.
+    params:
+      - {name: file_path, type: string, required: false, description: Optional file path relative to the allowed base directory}
+      - {name: page_content_type, type: string, required: true, enum: [RAW_HTML, VISIBLE_TEXT], description: Export visible text or raw html content of page}
+  - name: sf_export_seo_element_urls
+    category: export
+    description: >-
+      Export URLs and associated data for a specific SEO element name and filter. The export
+      format is NDJSON. Fields with value null mean the information is unavailable — do not
+      guess or infer missing values. Call sf_list_available_filters_for_seo_element for filter names.
+    params:
+      - name: seo_element_name
+        type: string
+        required: true
+        enum: [JavaScript, H1, H2, Internal, External, AMP, Canonicals, Content, Custom Extraction, Custom Search, Custom JavaScript, Directives, Analytics, Search Console, Hreflang, Images, Link Metrics, Meta Description, Meta Keywords, PageSpeed, Pagination, Response Codes, Security, Sitemaps, Structured Data, Page Titles, URL, Change Detection, Links, Validation, Mobile, AI, Accessibility]
+      - {name: filter_name, type: string, required: true, description: The filter name}
+      - {name: file_path, type: string, required: false, description: Optional file path relative to the allowed base directory}
+      - {name: page_content_type, type: string, required: true, enum: [RAW_HTML, VISIBLE_TEXT]}
+      - {name: segment_name, type: string, required: false, description: Optional segment name. If omitted, will export all segments}
+      - {name: data_fields, type: array, required: false, description: The data fields to export. If empty all available data fields will be exported}
+      - {name: start_index, type: integer, required: false, description: 'Optional start index of URLs to export. Defaults to 0'}
+      - {name: max_rows, type: integer, required: false, description: Optional maximum number of URLs to export. If omitted, all rows are exported}
+  - name: sf_export_embeddings
+    category: export
+    description: Generates a CSV file with the URL and embeddings.
+    params:
+      - {name: file_path, type: string, required: true, description: File path relative to the allowed base directory to write the content}
+  - name: sf_get_url_screenshot
+    category: url-inspection
+    description: Get the stored screenshot of the web page for the URL. Returns a base64 encoded image string if no file path is supplied.
+    params:
+      - {name: url, type: string, required: true, description: The URL to get the screenshot for}
+      - {name: file_path, type: string, required: false, description: Optional file path relative to the allowed base directory}
+  - name: sf_url_info
+    category: url-inspection
+    description: Generates a JSON report with information on the supplied URL.
+    params:
+      - {name: url, type: string, required: true, description: The URL to get information on}
+      - {name: file_path, type: string, required: false, description: Optional file path relative to the allowed base directory}
+  - name: sf_url_content
+    category: url-inspection
+    description: >-
+      Get the content of a specific URL in the loaded crawl. If the URL is an image, generates
+      base64 encoded image content. If the URL has HTML content type, generates the text content.
+    params:
+      - {name: url, type: string, required: true, description: The URL}
+      - {name: show_visible_content_for_html_url, type: boolean, required: true, description: Flag to return the visible content of the HTML page, otherwise HTML page content is returned}
+      - {name: file_path, type: string, required: false, description: Optional file path relative to the allowed base directory}
+  - name: sf_url_links
+    category: url-inspection
+    description: Lists all of the URL inlinks or outlinks depending on the links_direction argument.
+    params:
+      - {name: url, type: string, required: true, description: The URL to get links for}
+      - {name: links_direction, type: string, required: true, enum: [inlinks, outlinks, unique_outlinks]}
+      - name: links_category
+        type: string
+        required: true
+        enum: [Hyperlink, JavaScript, CSS, Image, SWF, HTML Canonical, HTTP Canonical, HTML Rel PRev, HTTP Rel PRe, HTML Rel Next, HTTP Rel Next, HTTP Hreflang, HTML Hreflang, Sitemap Hreflang, HTTP Redirect, HSTS Redirect, JavaScript Redirect, Meta Refresh, Redirect, HTTP Refresh Redirect, XML Sitemap, AMPHTML, Mobile Alternate, Iframe, MISC, PDF, Video, Audio, Font]
+      - {name: file_path, type: string, required: false, description: Optional file path relative to the allowed base directory}
+  - name: sf_open_url_in_browser
+    category: utility
+    description: Opens the URL or absolute file path in an external browser.
+    params:
+      - {name: url, type: string, required: true, description: A standard web address or a local file path relative to the allowed base directory}
+  - name: sf_list_available_reports
+    category: discovery
+    description: Lists all available reports.
+    params: []
+  - name: sf_list_available_bulk_exports
+    category: discovery
+    description: Lists all available bulk exports.
+    params: []
+  - name: sf_list_available_filters_for_seo_element
+    category: discovery
+    description: List the available filters for the supplied SEO element name.
+    params:
+      - {name: seo_element_name, type: string, required: true, description: SEO Element name}
+  - name: sf_list_available_data_fields_for_seo_element_and_filter
+    category: discovery
+    description: List the available data fields for the supplied SEO element name and filter type.
+    params:
+      - {name: seo_element_name, type: string, required: true, description: SEO Element name}
+      - {name: filter_name, type: string, required: true, description: Filter name}
+  - name: sf_run_node_js_script
+    category: node
+    default_enabled: false
+    description: Runs the node.js script with the supplied optional arguments.
+    params:
+      - {name: script_path, type: string, required: true, description: Path to the Node.js script file, relative to the allowed base directory}
+      - {name: args, type: array, required: false, description: 'Optional arguments passed to the node script. Arguments must not start with a dash (-). Scripts should treat these as untrusted input.'}
+  - name: sf_npm_install
+    category: node
+    default_enabled: false
+    description: Executes npm install to install a specific package.
+    params:
+      - {name: dependency, type: string, required: true, description: Node dependency to install}
+  - name: sf_read_text_file
+    category: filesystem
+    description: Read the contents of a text file.
+    params:
+      - {name: path, type: string, required: true, description: Path to the text file to read, relative to the allowed base directory}
+      - {name: skip, type: integer, required: false, description: Start reading the text file after first skipping the supplied number of lines}
+      - {name: limit, type: integer, required: false, description: Limit the number of lines read}
+  - name: sf_write_text_file
+    category: filesystem
+    description: Writes UTF-8 content to a text file. Caution — will overwrite existing files without warning.
+    params:
+      - {name: path, type: string, required: true, description: Path where the text file will be written, relative to the allowed base directory}
+      - {name: content, type: string, required: false, description: The text content to write to file}
+  - name: sf_list_allowed_base_directory
+    category: filesystem
+    description: Returns the allowed base directory that this server can access for reading and writing files. Subdirectories are also accessible.
+    params: []
+  - name: sf_list_directories
+    category: filesystem
+    description: >-
+      Get a detailed listing of all files and directories in a specified relative path.
+      Results distinguish files and directories with [FILE] and [DIR] prefixes.
+      Only works within allowed directories.
+    params:
+      - {name: path, type: string, required: true, description: "Directory path to list, relative to the allowed base directory. Use '.' to list the allowed base directory itself."}
+  - name: sf_create_directory
+    category: filesystem
+    description: Create a new directory or ensure a directory exists. Can create multiple nested directories in one operation. Only works within allowed directories.
+    params:
+      - {name: path, type: string, required: true, description: Path to the directory to create, relative to the allowed base directory}
+
+x-evidence:
+  fetched: '2026-08-13'
+  urls:
+    - {url: 'https://www.screamingfrog.co.uk/seo-spider/mcp/', http_status: 200, note: 'redirects to /guides/mcp-server/'}
+    - {url: 'https://www.screamingfrog.co.uk/guides/mcp-server/', http_status: 200}
+    - {url: 'https://download.screamingfrog.co.uk/products/seo-spider/spider-stdio-mcp.mcpb', http_status: 200}
+    - {url: 'https://download.screamingfrog.co.uk/products/seo-spider/spider-streamable-mcp.mcpb', http_status: 200}
+    - {url: 'https://www.screamingfrog.co.uk/blog/seo-spider-24/', http_status: 200, note: 'v24.0 release announcement, 19 May 2026'}
+  tools_list_probed: false
+  tools_list_note: >-
+    tools/list was not probed live. The server has no internet-reachable endpoint — it
+    only listens on loopback inside a licensed desktop installation — so the tool set
+    above is transcribed verbatim from the provider's published MCP API reference,
+    including each documented parameter, type, requiredness and enum.
+
+community_servers:
+  - name: screaming-frog-mcp
+    author: Boaz Sasson
+    repo: https://github.com/bzsasson/screaming-frog-mcp
+    registry: pypi
+    package: screaming-frog-mcp
+    version: 0.4.0
+    published: '2026-06-12'
+    official: false
+    note: >-
+      Third-party wrapper that drives the SEO Spider CLI. Not affiliated with Screaming Frog.
+      Recorded for completeness only — it is not the provider's agent surface.
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

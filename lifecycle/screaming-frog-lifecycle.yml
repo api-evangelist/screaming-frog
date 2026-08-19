@@ -1,0 +1,91 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://www.screamingfrog.co.uk/seo-spider/release-history/ ,
+  https://www.screamingfrog.co.uk/seo-spider/pricing/ ,
+  https://www.screamingfrog.co.uk/seo-spider/support/ ,
+  https://www.screamingfrog.co.uk/seo-spider/terms-conditions/
+provider: Screaming Frog
+providerId: screaming-frog
+description: >-
+  Lifecycle posture for Screaming Frog's desktop products. There is no API, so there is
+  no API versioning scheme, no Sunset/Deprecation header practice and no service status
+  page — the software runs on the customer's machine, so there is no service to be up or
+  down. What the provider does publish is a long, dated release history and an annual
+  licence model.
+
+versioning:
+  scheme: MAJOR.MINOR
+  surface: desktop-application
+  current:
+    - {product: Screaming Frog SEO Spider, version: '24.3', released: '2026-06-29'}
+    - {product: Screaming Frog Log File Analyser, version: '7.1'}
+  policy_published: false
+  policy_note: >-
+    No written versioning policy. The pattern is legible from the release history: MAJOR
+    releases carry features, MINOR releases are bug fixes, and there is no
+    backwards-compatibility contract to publish because nothing is served over a network.
+  changelog: changelog/screaming-frog-changelog.yml
+  changelog_url: https://www.screamingfrog.co.uk/seo-spider/release-history/
+
+deprecation:
+  policy_published: false
+  sunset_header: not-applicable
+  deprecation_header: not-applicable
+  note: >-
+    RFC 8594 Sunset / Deprecation headers cannot apply to a desktop binary. No published
+    end-of-life or supported-version policy was found. The observable practice is that
+    older versions keep running until the user upgrades; the download page always serves
+    the current build.
+  observed_removals:
+    - >-
+      Google Universal Analytics support (--use-google-analytics) persists alongside GA4
+      (--use-google-analytics-4) in the CLI documentation, a de facto deprecation with no
+      announced removal date.
+
+support:
+  channels:
+    - {type: docs, url: 'https://www.screamingfrog.co.uk/seo-spider/user-guide/'}
+    - {type: faq, url: 'https://www.screamingfrog.co.uk/seo-spider/faq/'}
+    - {type: support, url: 'https://www.screamingfrog.co.uk/seo-spider/support/'}
+    - {type: training, url: 'https://www.screamingfrog.co.uk/seo-spider/training/'}
+    - {type: email, url: 'https://www.screamingfrog.co.uk/contact/'}
+  sla_published: false
+  sla_note: No service level agreement is published; the product is licensed software, not a hosted service.
+
+status_page:
+  exists: false
+  note: >-
+    No status page found, and none is expected — the SEO Spider and Log File Analyser
+    execute locally. The only network dependencies at crawl time are the third-party APIs
+    the user chooses to enable, each of which has its own status page.
+
+licensing:
+  model: annual per-user licence
+  renewal_required: true
+  free_tier: true
+  free_tier_limits:
+    - {product: SEO Spider, limit: 500 URLs per crawl}
+    - {product: Log File Analyser, limit: 1000 log lines, projects: 1}
+  terms:
+    - {product: SEO Spider, url: 'https://www.screamingfrog.co.uk/seo-spider/terms-conditions/'}
+    - {product: Log File Analyser, url: 'https://www.screamingfrog.co.uk/log-file-analyser/terms-conditions/'}
+  privacy: https://www.screamingfrog.co.uk/privacy/
+
+agent_surface_lifecycle:
+  surface: MCP Server
+  introduced: '2026-05-19'
+  introduced_version: '24.0'
+  extension_requires: '24.1'
+  maturity: evolving
+  provider_statement: >-
+    "The MCP ecosystem is evolving rapidly. The current set of tools represents an initial
+    attempt to identify what might be useful, but real-world testing will show if there are
+    limitations." The provider expects new requirements, tool refinement and additional
+    capabilities, and explicitly notes that "not every feature and function is currently
+    supported in the SEO Spider MCP."
+  source: https://www.screamingfrog.co.uk/guides/mcp-server/
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

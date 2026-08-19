@@ -3,93 +3,71 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
 provider: Screaming Frog
 providerId: screaming-frog
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://www.screamingfrog.co.uk/seo-spider/user-guide/general/ ,
+  https://www.screamingfrog.co.uk/guides/mcp-server/ ,
+  https://www.screamingfrog.co.uk/seo-spider/pricing/
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-08-13'
 tags:
   - SEO
-  - Search Engine Optimization
   - Website Crawler
-  - Technical Audit
-  - Marketing
-  - Analytics
   - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Screaming Frog API surface. Captures per-tier
-  quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to
-  be replaced with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
-responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
-limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Screaming Frog SEO Spider
-      - Screaming Frog Log File Analyser
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Screaming Frog SEO Spider
-      - Screaming Frog Log File Analyser
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Screaming Frog SEO Spider
-      - Screaming Frog Log File Analyser
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Screaming Frog SEO Spider
-      - Screaming Frog Log File Analyser
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Screaming Frog SEO Spider
-      - Screaming Frog Log File Analyser
-policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+description: >-
+  Screaming Frog publishes no API rate limits, because it publishes no API. The SEO
+  Spider and Log File Analyser are desktop applications; their automation surfaces (the
+  CLI and the v24 MCP server) run locally against the user's own machine and are not
+  metered, throttled or served over the network. This file REPLACES a 2026-05-04
+  bulk-sweep scaffold that invented X-RateLimit-* headers, 429 semantics and
+  free/professional/enterprise requests-per-minute ceilings none of which Screaming Frog
+  has ever published.
+
+limit_count: 0
+headers: {}
+responseCodes: {}
+limits: []
+
+what_is_actually_limited:
+  - name: Free version crawl cap
+    kind: licence-limit
+    scope: per-crawl
+    value: 500 URLs
+    source: https://www.screamingfrog.co.uk/seo-spider/pricing/
+    note: A product licence limit, not a request rate limit. See plans/screaming-frog-plans-pricing.yml.
+  - name: Free Log File Analyser cap
+    kind: licence-limit
+    scope: per-project
+    value: 1,000 log lines, 1 project
+    source: https://www.screamingfrog.co.uk/log-file-analyser/pricing/
+  - name: Crawl speed
+    kind: client-side-configuration
+    scope: per-crawl
+    value: user-configurable max threads and URLs-per-second
+    source: https://www.screamingfrog.co.uk/seo-spider/user-guide/configuration/
+    note: >-
+      This throttles the CUSTOMER's crawler against a THIRD-PARTY website. It is a
+      politeness control the operator sets, not a limit Screaming Frog enforces on a
+      consumer of a Screaming Frog service.
+  - name: LLM context window
+    kind: client-side-constraint
+    scope: per-mcp-session
+    value: undocumented
+    source: https://www.screamingfrog.co.uk/guides/mcp-server/
+    note: >-
+      The provider warns that large crawl exports easily exceed an LLM context window and
+      recommends writing reports to files or processing them with a Node script instead.
+      This is guidance, not an enforced quota.
+
+third_party_quotas:
+  note: >-
+    Where the SEO Spider consumes external APIs during a crawl, the applicable rate
+    limits belong to those providers and are billed and enforced against the customer's
+    own credentials — Google Analytics, Google Search Console (including the URL
+    Inspection API), PageSpeed Insights, Ahrefs, Majestic, Moz, OpenAI, Gemini and Ollama.
+    Screaming Frog neither sets nor signals those limits.
+
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
