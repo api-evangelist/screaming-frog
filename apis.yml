@@ -46,7 +46,7 @@ created: '2026-05-02'
 modified: '2026-08-13'
 url: >-
   https://raw.githubusercontent.com/api-evangelist/screaming-frog/refs/heads/main/apis.yml
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
   - aid: screaming-frog:seo-spider
     name: Screaming Frog SEO Spider
