@@ -145,6 +145,8 @@ apis:
       - type: ReleaseHistory
         url: https://www.screamingfrog.co.uk/log-file-analyser/release-history/
 common:
+  - type: FinOps
+    url: finops/screaming-frog-finops.yml
   - type: DomainSecurity
     url: security/screaming-frog-domain-security.yml
   - type: LinkedIn
