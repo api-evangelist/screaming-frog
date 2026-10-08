@@ -151,3 +151,39 @@ api_pricing:
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - subscription
+  units: []
+  plans:
+  - name: SEO Spider — Free
+    access: freemium
+    model: free
+    model_how: derived
+    units: []
+    periods:
+    - one-time
+  - name: SEO Spider — Paid Licence
+    access: paid
+    model: subscription
+    model_how: derived
+    units: []
+    periods:
+    - year
+  - name: Log File Analyser — Free
+    access: freemium
+    model: free
+    model_how: derived
+    units: []
+    periods:
+    - one-time
+  - name: Log File Analyser — Paid Licence
+    access: paid
+    model: subscription
+    model_how: derived
+    units: []
+    periods:
+    - year
