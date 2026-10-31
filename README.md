@@ -64,91 +64,152 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Screaming Frog is a UK-based SEO software company and search marketing agency, best known for the SEO Spider website crawler tool used by SEO professionals worldwide to perform technical SEO audits, crawl analysis, and integrations with third-party APIs. The SEO Spider integrates with Google Analytics (GA4), Google Search Console, PageSpeed Insights, Ahrefs, Majestic, Moz, OpenAI, Gemini, Ollama, and Anthropic.
+Screaming Frog is a UK-based SEO software company and search marketing agency, best known for the SEO Spider website crawler tool used by SEO professionals worldwide to perform technical SEO audits, crawl analysis, and integrations with third-party APIs. The SEO Spider integrates with Google Analytics (GA4), Google Search Console, PageSpeed Insights, Ahrefs, Majestic, Moz, OpenAI, Gemini, Ollama, and Anthropic. Screaming Frog also offers a free Log File Analyser for analyzing server log files to understand search bot behavior. Screaming Frog operates no public web API. Its machine-callable surfaces are the SEO Spider command line interface, which runs the product fully headless, and — since version 24.0, released 19 May 2026 — a first-party Model Context Protocol server built into the desktop application, exposing 29 tools for crawl control, reports, bulk exports, URL inspection, screenshots, embeddings, Node scripting and sandboxed file access. The MCP server is a paid licence feature and runs inside the user's own installation over stdio or a loopback HTTP transport; there is no hosted endpoint.
 
-**Website:** https://www.screamingfrog.co.uk/
-**APIs.yml:** https://raw.githubusercontent.com/api-evangelist/screaming-frog/refs/heads/main/apis.yml
+**Areas:** SEO · Website Crawler · Technical Audit · Marketing · Analytics · MCP · Agents · Desktop Software · Command Line
 
-## Scope
+## Screaming Frog on APIs.io
 
-- **Type:** Company
-- **Position:** Consumer
-- **Access:** 3rd-Party
+Everything profiled for Screaming Frog is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/screaming-frog/](https://apis.io/providers/screaming-frog/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (2)
 
-- SEO
-- Search Engine Optimization
-- Website Crawler
-- Technical Audit
-- Marketing
-- Analytics
+- [Screaming Frog SEO Spider](https://apis.io/apis/screaming-frog/seo-spider/) — The Screaming Frog SEO Spider is a desktop website crawler for Windows, macOS, and Ubuntu that performs comprehensive technical SEO audits. It crawls…
+- [Screaming Frog Log File Analyser](https://apis.io/apis/screaming-frog/log-file-analyser/) — The Screaming Frog Log File Analyser is a free desktop tool that allows SEO professionals to upload and analyze server log files to understand how search…
 
-## Tools
+### Published properties
 
-| Tool | Description |
-|------|-------------|
-| [SEO Spider](https://www.screamingfrog.co.uk/seo-spider/) | Desktop website crawler for technical SEO audits with third-party API integrations |
-| [Log File Analyser](https://www.screamingfrog.co.uk/log-file-analyser/) | Free tool for analyzing server log files to understand search bot crawl behavior |
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## Third-Party API Integrations
+#### MCP servers (1)
 
-The SEO Spider integrates with the following external APIs:
+Model Context Protocol servers that expose the API to agents.
 
-| Integration | Purpose |
-|-------------|---------|
-| Google Analytics (GA4) | Session, user, and conversion metrics alongside crawl data |
-| Google Search Console | Impressions, clicks, CTR, average position, and URL inspection |
-| PageSpeed Insights | Core Web Vitals and Lighthouse performance scores |
-| Ahrefs | Domain Rating, URL Rating, and backlink metrics |
-| Majestic | Trust Flow, Citation Flow, and link data |
-| Moz | Domain Authority and link metrics |
-| OpenAI | AI-powered content analysis and categorization |
-| Gemini | Google's AI integration for content analysis |
-| Anthropic | Claude AI integration for content analysis |
-| Ollama | Local LLM integration for offline AI processing |
+- [Screaming Frog SEO Spider MCP Server](https://apis.io/servers/screaming-frog/screaming-frog-seo-spider-mcp-server/)
 
-## Artifacts
+#### JSON Schema (1)
 
-### JSON Schema
+The data models the API reads and writes.
 
-| File | Description |
-|------|-------------|
-| [json-schema/screaming-frog-crawl-result-schema.json](json-schema/screaming-frog-crawl-result-schema.json) | Schema for URL crawl results from the SEO Spider |
+- [Screaming Frog Crawl Result](https://apis.io/schemas/screaming-frog/screaming-frog-crawl-result/)
 
-### JSON Structure
+#### JSON Structure (1)
 
-| File | Description |
-|------|-------------|
-| [json-structure/screaming-frog-crawl-result-structure.json](json-structure/screaming-frog-crawl-result-structure.json) | Field-level documentation for crawl result data |
+Data models expressed in JSON Structure.
 
-### JSON-LD
+- [Screaming Frog Crawl Result Structure](https://apis.io/json-structure/screaming-frog/screaming-frog-crawl-result-structure/)
 
-| File | Description |
-|------|-------------|
-| [json-ld/screaming-frog-context.jsonld](json-ld/screaming-frog-context.jsonld) | JSON-LD context mapping SEO crawl data to schema.org vocabulary |
+#### JSON-LD (1)
 
-### Examples
+Linked-data contexts for the provider's vocabulary.
 
-| File | Description |
-|------|-------------|
-| [examples/screaming-frog-crawl-result-example.json](examples/screaming-frog-crawl-result-example.json) | Example crawl result record for a successfully crawled page |
+- [Screaming Frog Context](https://apis.io/jsonld/screaming-frog/screaming-frog-context/)
 
-### Vocabulary
+#### Vocabulary (1)
 
-| File | Description |
-|------|-------------|
-| [vocabulary/screaming-frog-vocabulary.yml](vocabulary/screaming-frog-vocabulary.yml) | SEO and crawl domain vocabulary |
+The provider's domain terms, defined.
 
-## Links
+- [Screaming Frog SEO Spider Vocabulary](https://apis.io/vocabularies/screaming-frog/screaming-frog-vocabulary/)
 
-- **Website:** https://www.screamingfrog.co.uk/
-- **SEO Spider Documentation:** https://www.screamingfrog.co.uk/seo-spider/user-guide/
-- **Pricing:** https://www.screamingfrog.co.uk/seo-spider/pricing/
-- **Blog:** https://www.screamingfrog.co.uk/blog/
-- **Release History:** https://www.screamingfrog.co.uk/seo-spider/release-history/
+#### Examples (1)
 
-## Maintainers
+Example requests and responses.
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+- [Screaming Frog Crawl Result Example](https://apis.io/examples/screaming-frog/screaming-frog-crawl-result-example/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [Screaming Frog — jsonschema rules](https://apis.io/rules/screaming-frog/screaming-frog-jsonschema-spectral-rules/)
+
+#### Security (1)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Screaming Frog Domain Security](https://apis.io/security/screaming-frog/screaming-frog-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Screaming Frog Plans Pricing](https://apis.io/plans/screaming-frog/screaming-frog-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Screaming Frog Rate Limits](https://apis.io/rate-limits/screaming-frog/screaming-frog-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Screaming Frog Finops](https://apis.io/finops/screaming-frog/screaming-frog-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.screamingfrog.co.uk/)
+- [Pricing](https://www.screamingfrog.co.uk/seo-spider/pricing/)
+- [Support](https://www.screamingfrog.co.uk/seo-spider/faq/)
+- [Blog](https://www.screamingfrog.co.uk/blog/)
+- [Terms of service](https://www.screamingfrog.co.uk/seo-spider/terms-conditions/)
+- [Privacy policy](https://www.screamingfrog.co.uk/privacy/)
+- [GitHub](https://github.com/screamingfrog)
+
+## API Evangelist rating
+
+**Kin Score 40.4** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 56.7 |
+| Contract quality | 24.4 |
+| Contract governance | 23.5 |
+| Operational transparency | 18.4 |
+| Developer ergonomics | 44.6 |
+| Access clarity | 69.7 |
+
+**Agent readiness 8.1** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | documented (partial credit) |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 18.6** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/screaming-frog/](https://apis.io/providers/screaming-frog/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Screaming Frog: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/screaming-frog/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
