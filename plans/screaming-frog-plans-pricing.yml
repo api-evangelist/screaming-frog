@@ -1,0 +1,119 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
+method: searched
+source: https://www.screamingfrog.co.uk/seo-spider/pricing/
+sources:
+- https://www.screamingfrog.co.uk/seo-spider/pricing/
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T161713
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: per-seat
+delivery:
+  delivery: open-core
+  method: page
+  read: '2026-10-28'
+  evidence: The Screaming Frog SEO Spider is free, however you can purchase a licence to crawl more than
+    500 URLs and have access to advanced features.
+  free_edition: Free Version
+published: true
+note: Desktop SEO Spider licensing; free 500-URL version plus annual per-user licence with volume discounts.
+  Prices shown in USD with GBP/EUR toggles.
+plan_count: 6
+currency: USD
+plans:
+- name: Free Version
+  price_text: Free
+  period: none
+  unit: licence
+  included_quota: Crawl Limit - 500 URLs
+- name: Paid Version
+  price_text: '279'
+  price: 279
+  currency: USD
+  period: year
+  unit: per licence
+  included_quota: Crawl Limit - Unlimited*
+- name: 1 to 4 Licences
+  price_text: $279 per licence, per year
+  price: 279
+  currency: USD
+  period: year
+  unit: per licence
+- name: 5 to 9 Licences
+  price_text: $265 per licence, per year
+  price: 265
+  currency: USD
+  period: year
+  unit: per licence
+- name: 10 to 19 Licences
+  price_text: $249 per licence, per year
+  price: 249
+  currency: USD
+  period: year
+  unit: per licence
+- name: 20+ Licences
+  price_text: $235 per licence, per year
+  price: 235
+  currency: USD
+  period: year
+  unit: per licence
+rate_limit_statements:
+- Crawl Limit - 500 URLs
+- The maximum number of URLs you can crawl is dependent on allocated memory and storage.
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - subscription
+  units: []
+  plans:
+  - name: Free Version
+    access: other
+    model: unstated
+    model_how: derived
+    units:
+    - other
+    periods:
+    - none
+  - name: Paid Version
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - year
+  - name: 1 to 4 Licences
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - year
+  - name: 5 to 9 Licences
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - year
+  - name: 10 to 19 Licences
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - year
+  - name: 20+ Licences
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - year
