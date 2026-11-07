@@ -63,18 +63,19 @@ rate_limit_statements:
 - Crawl Limit - 500 URLs
 - The maximum number of URLs you can crawl is dependent on allocated memory and storage.
 x-canonical:
-  generated: '2026-11-02'
+  generated: '2026-11-06'
   vocabulary: engine/economics/plans-canonical.yml
   models:
   - subscription
-  units: []
+  units:
+  - period
   plans:
   - name: Free Version
     access: other
     model: unstated
     model_how: derived
     units:
-    - other
+    - period
     periods:
     - none
   - name: Paid Version
@@ -82,7 +83,7 @@ x-canonical:
     model: subscription
     model_how: derived
     units:
-    - other
+    - period
     periods:
     - year
   - name: 1 to 4 Licences
@@ -90,7 +91,7 @@ x-canonical:
     model: subscription
     model_how: derived
     units:
-    - other
+    - period
     periods:
     - year
   - name: 5 to 9 Licences
@@ -98,7 +99,7 @@ x-canonical:
     model: subscription
     model_how: derived
     units:
-    - other
+    - period
     periods:
     - year
   - name: 10 to 19 Licences
@@ -106,7 +107,7 @@ x-canonical:
     model: subscription
     model_how: derived
     units:
-    - other
+    - period
     periods:
     - year
   - name: 20+ Licences
@@ -114,6 +115,6 @@ x-canonical:
     model: subscription
     model_how: derived
     units:
-    - other
+    - period
     periods:
     - year
